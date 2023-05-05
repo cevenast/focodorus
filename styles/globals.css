@@ -2,22 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* For Firefox Browser */
-.scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #000 #00f;
-}
+
+/* Spotify Search Menu Scrollbar */
+
+  #searchMenu ul::-webkit-scrollbar {
+    height: 5px;
+    width: 6px;
+  }
+
+  #searchMenu ul::-webkit-scrollbar-track {
+    -webkit-margin-after: 8px;
+    margin-block-end:8px
+  }
 
 
-/* For Chrome, EDGE, Opera, Others */
-.scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
+  #searchMenu ul::-webkit-scrollbar-thumb {
+    background-color: rgba(150,150,150,.3);
+    border-radius: 4px;
+  }
 
-.scrollbar::-webkit-scrollbar-track { 
-  background: #fff;
-}
-
-.scrollbar::-webkit-scrollbar-thumb { 
-  background:#000;
-}
+  #searchMenu ul::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(100,100,100,.3);
+    border-radius: 4px
+  }
