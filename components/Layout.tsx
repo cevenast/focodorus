@@ -8,7 +8,7 @@ const Layout = ( props: Props ) => {
   return (
     <>
       <Nav/>
-      <main className="bg-stone-950">
+      <main className="bg-pomo-1">
         {props.children}
       </main>
     </>

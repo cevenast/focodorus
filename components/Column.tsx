@@ -4,7 +4,7 @@ export interface Props {
 
 const Column = (props:Props) => {
   return(
-    <section className="border-2 border-indigo-200 w-full">
+    <section className="w-full">
       {props.children}
     </section>
   )

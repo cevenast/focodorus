@@ -8,7 +8,7 @@ interface Categories{
 const Categories = ({ activeCategory, handleCategoryClick }: Categories) => {
 
   return(
-    <ul className="w-full flex justify-around h-8 mb-6 px-1.5" onClick={(e) => handleCategoryClick(e)}>
+    <ul className="w-full flex justify-around h-8 mb-5 px-1.5" onClick={(e) => handleCategoryClick(e)}>
       <Category name="Track" activeCategory={activeCategory}/>
       <Category name="Album" activeCategory={activeCategory}/>
       <Category name="Artist" activeCategory={activeCategory}/>
