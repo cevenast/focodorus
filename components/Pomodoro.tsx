@@ -2,7 +2,7 @@ const Pomodoro = () => {
 
   return(
     <div>
-      pomodoro goes here
+      <div className="w-60 h-60 bg-pomo-3 rounded-full"></div>
     </div>
   )
 }

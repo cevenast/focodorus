@@ -1,10 +1,12 @@
 export interface Props {
-  children?: React.ReactNode;
+  children?: React.ReactNode
+  size:string
+  className:string
 }
 
 const Column = (props:Props) => {
   return(
-    <section className="w-full">
+    <section className={`${props.size} ${props.className} `}>
       {props.children}
     </section>
   )
