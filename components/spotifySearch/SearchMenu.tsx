@@ -3,11 +3,12 @@ import Categories from './Categories'
 import SearchResults from './SearchResults'
 import SearchForm from './SearchForm'
 import CloseIcon from '@mui/icons-material/Close';
+import spotifySearch from './spotifySearch'
 
-const SearchMenu = ({ token, searchMenuVisible, setSearchMenuVisible, setPlayer }:SearchMenu) => {
+const SearchMenu = ({ searchMenuVisible, setSearchMenuVisible, setPlayer }:SearchMenu) => {
   const [activeCategory, setActiveCategory] = useState('track')
   const [searchInput, setSearchInput] = useState('')
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState({albums:[], artists:[], playlists:[], tracks:[]})
 
   // Change Search Category
   const handleCategoryClick = (e:MouseEvent) => {
@@ -54,7 +55,7 @@ const SearchMenu = ({ token, searchMenuVisible, setSearchMenuVisible, setPlayer 
       <h3 className="text-center text-3xl font-bold pb-8">Search</h3>
       <Categories activeCategory={activeCategory} handleCategoryClick={handleCategoryClick}/>
       <SearchForm handleSubmit={handleSearchSubmit} searchInput={searchInput} setSearchInput={setSearchInput} activeCategory={activeCategory}/>
-      <SearchResults results={results} handleClick={handleResultClick}/>
+      <SearchResults results={results} handleClick={handleResultClick} activeCategory={activeCategory}/>
     </div>
   )
 }
@@ -62,7 +63,6 @@ const SearchMenu = ({ token, searchMenuVisible, setSearchMenuVisible, setPlayer 
 
 
 interface SearchMenu {
-  token: string
   searchMenuVisible: boolean
   setSearchMenuVisible: Function
   setPlayer: Function
