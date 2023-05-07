@@ -23,16 +23,7 @@ const SearchMenu = ({ searchMenuVisible, setSearchMenuVisible, setPlayer }:Searc
 
   // Spotify Search
   const handleSearchSubmit = async (e:FormEvent) => {
-    e.preventDefault()
-    if (searchInput == '') return
-    const res = await fetch(`https://api.spotify.com/v1/search?q=${searchInput}&type=${activeCategory}&market=ES&limit=15`, {
-      headers:{
-        Authorization: `Bearer ${token}`
-      }
-    })
-    const data = await res.json()
-    const info = data.artists || data.albums || data.playlists || data.tracks
-    setResults(info.items)
+    await spotifySearch(e, searchInput, activeCategory, results, setResults)
   }
 
   // Update Player
