@@ -1,6 +1,6 @@
 import { FormEvent } from "react"
-import checkToken from "../checkToken"
-import getNewToken from "../getToken"
+import checkToken from "../checkStoredToken"
+import getNewToken from "../getNewToken"
 // sets results state in the following shape:
 // results = {
 //   albums: [{},{},{}...]
