@@ -28,7 +28,10 @@ const Pomodoro = () => {
     <div>
       <div onClick={() => setIsTimerOn(!isTimerOn)} className="w-60 h-60 bg-pomo-3 rounded-full flex flex-col justify-center cursor-pointer">
         <h4 className="text-center text-white text-4xl font-bold mx-auto">{minutes}:{seconds}</h4>
-
+        <div className="text-center">
+          <button>{isTimerOn ? <BsFillPauseFill size={iconsSize}/> : <BsFillPlayFill size={iconsSize} />}</button>
+          <button onClick={resetPomodoro}> <BsFillStopFill size={iconsSize} /> </button>
+        </div>
       </div>
     </div>
   )
