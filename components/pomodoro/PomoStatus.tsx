@@ -9,14 +9,10 @@ interface PomoStatusInterface {
   handleStatusClick: MouseEventHandler
 }
 
-import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs'
-import { VscDebugRestart } from 'react-icons/vsc'
-import { RiSettings3Fill } from 'react-icons/ri'
 import { MouseEventHandler } from 'react';
+import Buttons from './Buttons'
 
 const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, minutes, seconds, resetPomodoro, handleStatusClick}:PomoStatusInterface) => {
-  
-  const iconsSize = '2.5em'
 
   return (
     <div onClick={() => setIsTimerOn(!isTimerOn)} className="w-60 h-60 pt-16 bg-pomo-3 hover:bg-pomo-3-light rounded-full flex flex-col justify-center transition duration-500 cursor-pointer">
@@ -34,26 +30,7 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, min
       </div>
 
       {/* Buttons */}
-      <div className="text-center pt-4">
-
-        {/* Play or Pause Indicator */}
-        <button className="text-neutral-900 hover:text-neutral-700">
-          {isTimerOn ? 
-            <BsFillPauseFill size={iconsSize}/> : 
-            <BsFillPlayFill size={iconsSize} />
-          }
-        </button>
-
-        {/* Reset Button */}
-        <button className="text-neutral-900 hover:text-neutral-700" onClick={resetPomodoro}> 
-          <VscDebugRestart size={iconsSize} /> 
-        </button>
-
-        {/* Settings Button */}
-        <button className="text-neutral-900 hover:text-neutral-700">
-          <RiSettings3Fill size={iconsSize}/>
-        </button>
-      </div>
+      <Buttons isTimerOn={isTimerOn} resetPomodoro={resetPomodoro}/>
     </div>
   )
 }

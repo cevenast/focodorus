@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import PomoStatus from "./pomodoro/PomoStatus"
 
 const Pomodoro = () => {
-  const [config, setConfig] = useState({})
+  // const [config, setConfig] = useState({})
   const [timeLeft, setTimeLeft] = useState(10)
   const [isTimerOn, setIsTimerOn] = useState(false)
   const [completedPoms, setCompletedPoms] = useState([false,false,false,false])
@@ -81,7 +81,6 @@ const Pomodoro = () => {
 
   const minutes = Math.floor(timeLeft/60)
   const seconds = Math.floor(timeLeft%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
-  const iconsSize = '2.5em'
 
   return(
     <PomoStatus isTimerOn={isTimerOn} setIsTimerOn={setIsTimerOn} completedPoms={completedPoms} pomodoroStatus={pomodoroStatus} minutes={minutes} seconds={seconds} resetPomodoro={resetPomodoro} handleStatusClick={handleStatusClick}/>
