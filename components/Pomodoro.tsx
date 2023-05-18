@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import PomoStatus from "./pomodoro/PomoStatus"
+import handleCompleteTimer from "./pomodoro/handleCompleteTimer"
 
 const Pomodoro = () => {
   // const [config, setConfig] = useState({})
@@ -8,44 +9,27 @@ const Pomodoro = () => {
   const [completedPoms, setCompletedPoms] = useState([false,false,false,false])
   const [pomodoroStatus, setPomodoroStatus] = useState<'pomo' | 'short' | 'long'>('pomo')
 
+  // Pass time and handle end of time
   useEffect(() => {
     let timer:NodeJS.Timer | undefined
-    // Pass second
-    if (isTimerOn && timeLeft > -0){
+
+    if (isTimerOn && timeLeft > -0){ // Pass second
       timer = setInterval(() => setTimeLeft(timeLeft-1), 1000)
+      return () => clearInterval(timer)
     }
 
-    // If timer has reached 00:00
-    else if (timeLeft === 0){
-      setTimeout(() => jaja(), 1000 )
+    else if (timeLeft === 0) { // If timer has reached 00:00
       // if what was completed was a pomodoro, add to completedPoms and go to short or long break.
-      const jaja = () => {
-      if (pomodoroStatus === 'pomo') {
-        const b = [...completedPoms]
-        b.unshift(true)
-        b.pop()
-        setCompletedPoms(b)
-        b.filter(pom => pom === true).length < completedPoms.length ? setPomodoroStatus('short') : setPomodoroStatus('long')
-      }
       // If a short break was completed, go to next pomodoro.
-      else if (pomodoroStatus === 'short') {
-        setPomodoroStatus('pomo')
-      }
-      else{
-        alert('yessss')
-        setCompletedPoms([false,false,false,false])
-        setPomodoroStatus('pomo')
-      }
+      setTimeout(() => handleCompleteTimer({pomodoroStatus, setPomodoroStatus, completedPoms, setCompletedPoms, setIsTimerOn, setTimeLeft}), 1000 )
     }
-    }
-    return () => clearInterval(timer)
+    
   },[timeLeft, isTimerOn])
 
-
+  // When pomodoro status changes, updates timeLeft to the full time for the current status
   useEffect(() => {
     if (pomodoroStatus === 'pomo'){
       setTimeLeft(2)
-
     }
     else if (pomodoroStatus === 'short'){
       setTimeLeft(4)
@@ -56,17 +40,20 @@ const Pomodoro = () => {
     // setIsTimerOn(false)
   }, [completedPoms, pomodoroStatus])
 
+  // Changes current pomodoro status on click.
   const handleStatusClick = (e:React.MouseEvent) => {
     e.stopPropagation()
+    setIsTimerOn(false)
     const newStatus = e.target as HTMLElement
-    if (pomodoroStatus === 'pomo'){
+    if (pomodoroStatus === 'pomo' && isTimerOn == true){
       alert('stop current pomodoro?')
     }
-    else if (e.target as HTMLLIElement) {
+    if (e.target as HTMLLIElement) {
       setPomodoroStatus(newStatus.id as 'pomo'| 'short'| 'long')
     }
   }
 
+  // Resets the time for the current pomodoro or break
   const resetPomodoro = (e:React.MouseEvent) => {
     e.stopPropagation()
     setTimeLeft(10)
@@ -79,13 +66,9 @@ const Pomodoro = () => {
       <button>Yes, Restart</button>
   </div>
 
-  const minutes = Math.floor(timeLeft/60)
-  const seconds = Math.floor(timeLeft%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
-
   return(
-    <PomoStatus isTimerOn={isTimerOn} setIsTimerOn={setIsTimerOn} completedPoms={completedPoms} pomodoroStatus={pomodoroStatus} minutes={minutes} seconds={seconds} resetPomodoro={resetPomodoro} handleStatusClick={handleStatusClick}/>
+    <PomoStatus isTimerOn={isTimerOn} setIsTimerOn={setIsTimerOn} completedPoms={completedPoms} pomodoroStatus={pomodoroStatus} timeLeft={timeLeft} resetPomodoro={resetPomodoro} handleStatusClick={handleStatusClick}/>
   )
-
 }
 
 export default Pomodoro
