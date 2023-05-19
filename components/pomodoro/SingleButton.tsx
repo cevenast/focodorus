@@ -1,9 +1,4 @@
-import { MouseEventHandler, ReactNode } from "react"
-
-interface SingleButtonInterface { 
-  children: ReactNode
-  onClick?: MouseEventHandler
-}
+import { SingleButtonInterface } from "@/types/pomodoroTypes"
 
 const SingleButton = ({ children, onClick }:SingleButtonInterface) => {
   return ( 

@@ -1,4 +1,6 @@
-const config = {
+import { ConfigInterface } from "@/types/pomodoroTypes"
+
+const config: ConfigInterface = {
   time: {
     pomo:1500,
     short:300,

@@ -1,13 +1,8 @@
 import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs'
 import { VscDebugRestart } from 'react-icons/vsc'
 import { RiSettings3Fill } from 'react-icons/ri'
-import { MouseEventHandler } from 'react'
+import { ButtonsInterface } from '@/types/pomodoroTypes'
 import SingleButton from './SingleButton'
-
-interface ButtonsInterface {
-  isTimerOn: boolean
-  resetPomodoro: MouseEventHandler
-}
 
 const Buttons = ({ isTimerOn, resetPomodoro }:ButtonsInterface) => {
   const iconsSize = '2.5em'

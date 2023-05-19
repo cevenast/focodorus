@@ -1,11 +1,4 @@
-interface handleCompleteTimerInterface {
-  pomodoroStatus:'pomo' | 'short' | 'long'
-  setPomodoroStatus: Function
-  completedPoms: boolean[]
-  setCompletedPoms: Function
-  setIsTimerOn: Function
-  setTimeLeft: Function
-}
+import { handleCompleteTimerInterface } from "@/types/pomodoroTypes"
 
 const handleCompleteTimer = ({pomodoroStatus, setPomodoroStatus, completedPoms, setCompletedPoms, setIsTimerOn, setTimeLeft}:handleCompleteTimerInterface) => {
   // if what was completed was a pomodoro, add to completedPoms and go to short or long break.

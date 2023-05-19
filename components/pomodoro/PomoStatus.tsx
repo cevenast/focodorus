@@ -1,15 +1,5 @@
-interface PomoStatusInterface {
-  isTimerOn: boolean
-  setIsTimerOn: Function
-  completedPoms: boolean[]
-  pomodoroStatus: 'pomo' | 'short' | 'long'
-  timeLeft: number
-  resetPomodoro: MouseEventHandler
-  handleStatusClick: MouseEventHandler
-  config:unknown;
-}
-
-import { MouseEventHandler, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import { PomoStatusInterface } from '@/types/pomodoroTypes'
 import Buttons from './Buttons'
 
 const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, timeLeft, resetPomodoro, handleStatusClick, config}:PomoStatusInterface) => {
