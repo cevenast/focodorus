@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react"
 import PomoStatus from "./pomodoro/PomoStatus"
 import handleCompleteTimer from "./pomodoro/handleCompleteTimer"
+import defaultConfig from "./pomodoro/defaultConfig"
 
 const Pomodoro = () => {
-  // const [config, setConfig] = useState({})
-  const [timeLeft, setTimeLeft] = useState(10)
+  const [config, setConfig] = useState(defaultConfig)
+  const [timeLeft, setTimeLeft] = useState(defaultConfig.time.pomo)
   const [isTimerOn, setIsTimerOn] = useState(false)
   const [completedPoms, setCompletedPoms] = useState([false,false,false,false])
   const [pomodoroStatus, setPomodoroStatus] = useState<'pomo' | 'short' | 'long'>('pomo')
 
-  // Pass time and handle end of time
+  // Pass time and handle end of time  
   useEffect(() => {
     let timer:NodeJS.Timer | undefined
 
@@ -29,13 +30,13 @@ const Pomodoro = () => {
   // When pomodoro status changes, updates timeLeft to the full time for the current status
   useEffect(() => {
     if (pomodoroStatus === 'pomo'){
-      setTimeLeft(2)
+      setTimeLeft(config.time.pomo)
     }
     else if (pomodoroStatus === 'short'){
-      setTimeLeft(4)
+      setTimeLeft(config.time.short)
     }
     else{
-      setTimeLeft(8)
+      setTimeLeft(config.time.long)
     }
     // setIsTimerOn(false)
   }, [completedPoms, pomodoroStatus])
@@ -53,10 +54,10 @@ const Pomodoro = () => {
     }
   }
 
-  // Resets the time for the current pomodoro or break
+  // Resets the time for the current pomodoro or break on click
   const resetPomodoro = (e:React.MouseEvent) => {
     e.stopPropagation()
-    setTimeLeft(10)
+    setTimeLeft(config.time[pomodoroStatus])
     setIsTimerOn(false)
   }
 
@@ -67,7 +68,7 @@ const Pomodoro = () => {
   </div>
 
   return(
-    <PomoStatus isTimerOn={isTimerOn} setIsTimerOn={setIsTimerOn} completedPoms={completedPoms} pomodoroStatus={pomodoroStatus} timeLeft={timeLeft} resetPomodoro={resetPomodoro} handleStatusClick={handleStatusClick}/>
+    <PomoStatus isTimerOn={isTimerOn} setIsTimerOn={setIsTimerOn} completedPoms={completedPoms} pomodoroStatus={pomodoroStatus} timeLeft={timeLeft} resetPomodoro={resetPomodoro} handleStatusClick={handleStatusClick} config={config}/>
   )
 }
 
