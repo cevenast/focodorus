@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { PomoStatusInterface } from '@/types/pomodoroTypes'
 import manageBgAudio from '@/services/pomodoro/manageBgAudio';
 import Buttons from './Buttons'
+import StatusList from './StatusList'
 
 const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, timeLeft, resetPomodoro, handleStatusClick, config}:PomoStatusInterface) => {
   let bgSound= useRef<HTMLAudioElement>(null)
@@ -14,11 +15,7 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, tim
 
   return (
     <div onClick={() => setIsTimerOn(!isTimerOn)} className={`w-60 h-60 pt-16 bg-${bgColor[pomodoroStatus]} hover:bg-pomo-3-light rounded-full flex flex-col justify-center transition duration-500 cursor-pointer`}>
-      <ul className="flex justify-center">
-        <li id="pomo" className={`${pomodoroStatus == 'pomo' ? 'bg-white text-black' : 'text-white'} text-center text-sm mx-0.5 rounded-xl transition duration-500`} onClick={handleStatusClick}>Pomodoro</li>
-        <li id="short" className={`${pomodoroStatus == 'short' ? 'bg-white text-black' : 'text-white'} text-center text-sm mx-0.5 rounded-xl transition duration-500`} onClick = {handleStatusClick}>Short Break</li>
-        <li id="long" className={`${pomodoroStatus == 'long' ? 'bg-white text-black' : 'text-white'} text-center text-sm mx-0.5 rounded-xl transition duration-500`} onClick = {handleStatusClick}>Long Break</li>
-      </ul>
+      <StatusList pomodoroStatus={pomodoroStatus} handleStatusClick={handleStatusClick}/>
       {/* Pomodoro */}
       <h4 className="text-center text-white text-5xl font-bold mx-auto font-mono">{minutes}:{seconds}</h4>
 

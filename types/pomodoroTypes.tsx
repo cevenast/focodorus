@@ -1,10 +1,18 @@
 import { MouseEventHandler, ReactNode, RefObject } from "react"
 
-type PomodoroStatus = 'pomo' | 'short' | 'long'
+type PomodoroStatusInterface = 'pomo' | 'short' | 'long'
 
 export interface ButtonsInterface {
   isTimerOn: boolean
   resetPomodoro: MouseEventHandler
+}
+
+export interface changeStatusInterface {
+  e: React.MouseEvent
+  isTimerOn: boolean
+  setIsTimerOn: Function
+  pomodoroStatus: PomodoroStatusInterface
+  setPomodoroStatus: Function
 }
 
 export interface ConfigInterface {
@@ -21,7 +29,7 @@ export interface ConfigInterface {
 }
 
 export interface handleCompleteTimerInterface {
-  pomodoroStatus: PomodoroStatus
+  pomodoroStatus: PomodoroStatusInterface
   setPomodoroStatus: Function
   completedPoms: boolean[]
   setCompletedPoms: Function
@@ -29,8 +37,13 @@ export interface handleCompleteTimerInterface {
   setTimeLeft: Function
 }
 
+export interface handleTimeInterface extends handleCompleteTimerInterface {
+  isTimerOn: boolean
+  timeLeft: number
+}
+
 export interface manageStatusChangeInterface {
-  pomodoroStatus:PomodoroStatus
+  pomodoroStatus:PomodoroStatusInterface
   setTimeLeft: Function
   config: ConfigInterface
 }
@@ -45,11 +58,19 @@ export interface PomoStatusInterface {
   isTimerOn: boolean
   setIsTimerOn: Function
   completedPoms: boolean[]
-  pomodoroStatus: PomodoroStatus
+  pomodoroStatus: PomodoroStatusInterface
   timeLeft: number
   resetPomodoro: MouseEventHandler
   handleStatusClick: MouseEventHandler
   config:ConfigInterface;
+}
+
+export interface ResetPomodoroInterface {
+  e?: React.MouseEvent
+  pomodoroStatus: 'pomo' | 'short' | 'long'
+  setTimeLeft: Function
+  setIsTimerOn: Function
+  config: ConfigInterface
 }
 
 export interface SingleButtonInterface { 
@@ -60,7 +81,7 @@ export interface SingleButtonInterface {
 export type StatusListInterface = Omit<StatusListItemInterface, "name">
 
 export interface StatusListItemInterface {
-  pomodoroStatus: PomodoroStatus
+  pomodoroStatus: PomodoroStatusInterface
   handleStatusClick: MouseEventHandler
-  name: PomodoroStatus
+  name: PomodoroStatusInterface
 }
