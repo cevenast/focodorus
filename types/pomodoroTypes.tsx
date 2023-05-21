@@ -1,5 +1,7 @@
 import { MouseEventHandler, ReactNode, RefObject } from "react"
 
+type PomodoroStatus = 'pomo' | 'short' | 'long'
+
 export interface ButtonsInterface {
   isTimerOn: boolean
   resetPomodoro: MouseEventHandler
@@ -19,7 +21,7 @@ export interface ConfigInterface {
 }
 
 export interface handleCompleteTimerInterface {
-  pomodoroStatus:'pomo' | 'short' | 'long'
+  pomodoroStatus: PomodoroStatus
   setPomodoroStatus: Function
   completedPoms: boolean[]
   setCompletedPoms: Function
@@ -28,7 +30,7 @@ export interface handleCompleteTimerInterface {
 }
 
 export interface manageStatusChangeInterface {
-  pomodoroStatus:'pomo' | 'short' | 'long'
+  pomodoroStatus:PomodoroStatus
   setTimeLeft: Function
   config: ConfigInterface
 }
@@ -43,7 +45,7 @@ export interface PomoStatusInterface {
   isTimerOn: boolean
   setIsTimerOn: Function
   completedPoms: boolean[]
-  pomodoroStatus: 'pomo' | 'short' | 'long'
+  pomodoroStatus: PomodoroStatus
   timeLeft: number
   resetPomodoro: MouseEventHandler
   handleStatusClick: MouseEventHandler
@@ -53,4 +55,12 @@ export interface PomoStatusInterface {
 export interface SingleButtonInterface { 
   children: ReactNode
   onClick?: MouseEventHandler
+}
+
+export type StatusListInterface = Omit<StatusListItemInterface, "name">
+
+export interface StatusListItemInterface {
+  pomodoroStatus: PomodoroStatus
+  handleStatusClick: MouseEventHandler
+  name: PomodoroStatus
 }
