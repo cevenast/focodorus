@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from "react"
+import { MouseEventHandler, ReactNode, RefObject } from "react"
 
 export interface ButtonsInterface {
   isTimerOn: boolean
@@ -25,6 +25,18 @@ export interface handleCompleteTimerInterface {
   setCompletedPoms: Function
   setIsTimerOn: Function
   setTimeLeft: Function
+}
+
+export interface manageStatusChangeInterface {
+  pomodoroStatus:'pomo' | 'short' | 'long'
+  setTimeLeft: Function
+  config: ConfigInterface
+}
+
+export interface manageBgAudioInterface {
+  bgSound: RefObject<HTMLAudioElement>
+  config: ConfigInterface
+  isTimerOn: boolean
 }
 
 export interface PomoStatusInterface {

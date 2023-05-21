@@ -1,19 +1,12 @@
 import { useRef, useEffect } from 'react';
 import { PomoStatusInterface } from '@/types/pomodoroTypes'
+import manageBgAudio from '@/services/pomodoro/manageBgAudio';
 import Buttons from './Buttons'
 
 const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, timeLeft, resetPomodoro, handleStatusClick, config}:PomoStatusInterface) => {
-  let bgSound = useRef(null)
+  let bgSound= useRef<HTMLAudioElement>(null)
 
-  useEffect( () => {
-    if (config.sounds.playBackgroundSound){
-      bgSound.current.loop = true
-      isTimerOn ? bgSound.current.play() : bgSound.current.pause()
-    }
-    else{
-      bgSound.current.pause()
-    }
-  },[isTimerOn, config])
+  useEffect(() => manageBgAudio({ bgSound, config, isTimerOn }),[isTimerOn, config])
 
   const minutes = Math.floor(timeLeft/60)
   const seconds = Math.floor(timeLeft%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
@@ -36,6 +29,8 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, tim
 
       {/* Buttons */}
       <Buttons isTimerOn={isTimerOn} resetPomodoro={resetPomodoro}/>
+
+      {/* Audio */}
       <audio ref={bgSound} controls src="/tick-sound.wav" className="invisible"/>
     </div>
   )

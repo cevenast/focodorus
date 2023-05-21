@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import PomoStatus from "./pomodoro/PomoStatus"
-import handleCompleteTimer from "./pomodoro/handleCompleteTimer"
-import defaultConfig from "./pomodoro/defaultConfig"
+import handleCompleteTimer from "../services/pomodoro/handleCompleteTimer"
+import defaultConfig from "../services/pomodoro/defaultConfig"
+import manageStatusChange from "@/services/pomodoro/manageStatusChange"
 
 const Pomodoro = () => {
   const [config, setConfig] = useState(defaultConfig)
@@ -28,18 +29,7 @@ const Pomodoro = () => {
   },[timeLeft, isTimerOn])
 
   // When pomodoro status changes, updates timeLeft to the full time for the current status
-  useEffect(() => {
-    if (pomodoroStatus === 'pomo'){
-      setTimeLeft(config.time.pomo)
-    }
-    else if (pomodoroStatus === 'short'){
-      setTimeLeft(config.time.short)
-    }
-    else{
-      setTimeLeft(config.time.long)
-    }
-    // setIsTimerOn(false)
-  }, [completedPoms, pomodoroStatus])
+  useEffect(() => manageStatusChange({ pomodoroStatus, setTimeLeft, config }), [completedPoms, pomodoroStatus])
 
   // Changes current pomodoro status on click.
   const handleStatusClick = (e:React.MouseEvent) => {
