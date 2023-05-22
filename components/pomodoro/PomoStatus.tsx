@@ -4,9 +4,8 @@ import manageBgAudio from '@/services/pomodoro/manageBgAudio';
 import Buttons from './Buttons'
 import StatusList from './StatusList'
 
-const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, timeLeft, resetPomodoro, handleStatusClick, config}:PomoStatusInterface) => {
-  let bgSound= useRef<HTMLAudioElement>(null)
-
+const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, timeLeft, resetPomodoro, handleStatusClick, config, setShowSettings}:PomoStatusInterface) => {
+  const bgSound= useRef<HTMLAudioElement>(null)
   useEffect(() => manageBgAudio({ bgSound, config, isTimerOn }),[isTimerOn, config])
 
   const minutes = Math.floor(timeLeft/60)
@@ -14,9 +13,10 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, tim
   const bgColor = {'pomo':'pomo-3', 'short':'pomo-1', 'long':'blue-400'}
 
   return (
-    <div onClick={() => setIsTimerOn(!isTimerOn)} className={`w-60 h-60 pt-16 bg-${bgColor[pomodoroStatus]} hover:bg-pomo-3-light rounded-full flex flex-col justify-center transition duration-500 cursor-pointer`}>
+    <div onClick={() => setIsTimerOn(!isTimerOn)} className={`w-64 h-64 pt-16 bg-${bgColor[pomodoroStatus]} hover:bg-pomo-3-light rounded-full flex flex-col justify-center transition duration-500 cursor-pointer`}>
       <StatusList pomodoroStatus={pomodoroStatus} handleStatusClick={handleStatusClick}/>
-      {/* Pomodoro */}
+
+      {/* Pomodoro Timer */}
       <h4 className="text-center text-white text-5xl font-bold mx-auto font-mono">{minutes}:{seconds}</h4>
 
       {/* Completed Pomodoros */}
@@ -25,10 +25,11 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, tim
       </div>
 
       {/* Buttons */}
-      <Buttons isTimerOn={isTimerOn} resetPomodoro={resetPomodoro}/>
+      <Buttons isTimerOn={isTimerOn} setShowSettings={setShowSettings} resetPomodoro={resetPomodoro}/>
 
       {/* Audio */}
       <audio ref={bgSound} controls src="/tick-sound.wav" className="invisible"/>
+      
     </div>
   )
 }

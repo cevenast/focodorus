@@ -1,10 +1,11 @@
-import { MouseEventHandler, ReactNode, RefObject } from "react"
+import React, { MouseEventHandler, ReactNode, RefObject } from "react"
 
 type PomodoroStatusInterface = 'pomo' | 'short' | 'long'
 
 export interface ButtonsInterface {
   isTimerOn: boolean
   resetPomodoro: MouseEventHandler
+  setShowSettings: Function
 }
 
 export interface changeStatusInterface {
@@ -42,6 +43,11 @@ export interface handleTimeInterface extends handleCompleteTimerInterface {
   timeLeft: number
 }
 
+export interface handleShowSettingsInterface {
+  setShowSettings: Function
+  e: React.MouseEvent
+}
+
 export interface manageStatusChangeInterface {
   pomodoroStatus:PomodoroStatusInterface
   setTimeLeft: Function
@@ -54,6 +60,14 @@ export interface manageBgAudioInterface {
   isTimerOn: boolean
 }
 
+export interface PomodoroSettingsInterface {
+  config: ConfigInterface
+  setConfig: Function
+  setShowSettings: Function
+  setTimeLeft: Function
+  pomodoroStatus: PomodoroStatusInterface
+}
+
 export interface PomoStatusInterface {
   isTimerOn: boolean
   setIsTimerOn: Function
@@ -62,7 +76,9 @@ export interface PomoStatusInterface {
   timeLeft: number
   resetPomodoro: MouseEventHandler
   handleStatusClick: MouseEventHandler
-  config:ConfigInterface;
+  config: ConfigInterface;
+  setConfig: Function
+  setShowSettings: Function
 }
 
 export interface ResetPomodoroInterface {

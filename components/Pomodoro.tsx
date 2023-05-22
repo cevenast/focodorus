@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import PomoStatus from "./pomodoro/PomoStatus"
+import PomodoroSettings from "./pomodoro/PomodoroSettings"
 import handleTime from "@/services/pomodoro/handleTime"
 import defaultConfig from "../services/pomodoro/defaultConfig"
 import manageStatusChange from "@/services/pomodoro/manageStatusChange"
@@ -12,11 +13,14 @@ const Pomodoro = () => {
   const [isTimerOn, setIsTimerOn] = useState(false)
   const [completedPoms, setCompletedPoms] = useState([false,false,false,false])
   const [pomodoroStatus, setPomodoroStatus] = useState<'pomo' | 'short' | 'long'>('pomo')
+  const [showSettings, setShowSettings] = useState(false)
 
-  // Pass time and handle end of time  
+  // HANDLE TIME: Pass time and handle end of time  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => handleTime({ isTimerOn, setIsTimerOn, timeLeft, setTimeLeft, pomodoroStatus, setPomodoroStatus, completedPoms, setCompletedPoms}),[timeLeft, isTimerOn])
 
-  // When pomodoro status changes, updates timeLeft to the full time for the current status
+  // SET TIME ON STATUS CHANGE: When pomodoro status changes, updates timeLeft to the full time for the current status
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => manageStatusChange({ pomodoroStatus, setTimeLeft, config }), [completedPoms, pomodoroStatus])
 
   // Changes current pomodoro status on click.
@@ -26,6 +30,7 @@ const Pomodoro = () => {
   const handleResetClick = (e:React.MouseEvent) => resetPomodoro({ e, pomodoroStatus, setTimeLeft, setIsTimerOn, config })
 
   return(
+    <>
     <PomoStatus 
       isTimerOn={isTimerOn} 
       setIsTimerOn={setIsTimerOn} 
@@ -34,7 +39,12 @@ const Pomodoro = () => {
       timeLeft={timeLeft} 
       resetPomodoro={handleResetClick} 
       handleStatusClick={handleStatusClick} 
-      config={config}/>
+      config={config}
+      setConfig={setConfig}
+      setShowSettings={setShowSettings}
+    />
+    {showSettings && <PomodoroSettings config={config} setConfig={setConfig} setShowSettings={setShowSettings} setTimeLeft={setTimeLeft} pomodoroStatus={pomodoroStatus}/>}
+    </>
   )
 }
 

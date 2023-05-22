@@ -3,8 +3,9 @@ import { VscDebugRestart } from 'react-icons/vsc'
 import { RiSettings3Fill } from 'react-icons/ri'
 import { ButtonsInterface } from '@/types/pomodoroTypes'
 import SingleButton from './SingleButton'
+import { showSettings } from '@/services/pomodoro/handleShowSettings'
 
-const Buttons = ({ isTimerOn, resetPomodoro }:ButtonsInterface) => {
+const Buttons = ({ isTimerOn, resetPomodoro, setShowSettings }:ButtonsInterface) => {
   const iconsSize = '2.5em'
 
   return (
@@ -20,7 +21,7 @@ const Buttons = ({ isTimerOn, resetPomodoro }:ButtonsInterface) => {
       </SingleButton>
 
       {/* Settings Button */}
-      <SingleButton>
+      <SingleButton onClick={(e) => showSettings({ e, setShowSettings })}>
         <RiSettings3Fill size={iconsSize}/>
       </SingleButton>
     </div>
