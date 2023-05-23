@@ -19,6 +19,7 @@ export interface changeStatusInterface {
 export interface ConfigInterface {
   time: {'pomo': number, 'short': number, 'long': number }
   pomodorosPerSet: number
+  autoProgression: boolean
   sounds: {
     'playAlertSound': boolean,
     'playBackgroundSound': boolean,

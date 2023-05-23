@@ -1,28 +1,58 @@
 import { useState } from 'react'
 import { PomodoroSettingsInterface, ConfigInterface } from "@/types/pomodoroTypes"
+import Switch from '@mui/material/Switch'
 
 
 const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pomodoroStatus }:PomodoroSettingsInterface) => {
   const [pomotime, setPomotime] = useState(String(Math.floor(config.time.pomo/60)))
   const [shorttime, setShorttime] = useState(String(Math.floor(config.time.short/60)))
   const [longtime, setLongtime] = useState(String(Math.floor(config.time.long/60)))
+  const [pomodorosPerSet, setPomodorosPerSet] = useState(config.pomodorosPerSet)
 
   const handlePlus = (e:React.MouseEvent) => {
     const target = e.currentTarget as HTMLElement
     const input = (target.parentElement as HTMLElement).childNodes[1] as HTMLInputElement
     const newNum = target.innerText === '+' ? Number(input.value) + 1 : Number(input.value) - 1
-    input.value = newNum >= 0 ? String(newNum) : input.value
+
+    if (input.name == 'pomodorosPerSet' && newNum >= 10) {
+      return
+    }
+
+    if (newNum < 1000){
+      input.value = newNum >= 0 ? String(newNum) : input.value
+      switch (input.name) {
+        case 'pomo':
+          setPomotime(String(newNum))
+          break
+        case 'short':
+          setShorttime(String(newNum))
+          break
+        case 'long':
+          setLongtime(String(newNum))
+          break
+        case 'pomodorosPerSet':
+          setPomodorosPerSet(newNum)
+          break
+      }
+    }
   }
 
   const handleNumberChange = (e:React.ChangeEvent) => {
     const input = e.target as HTMLInputElement
     const inputValue = input.value
-    if (inputValue.split('').some( (char:string) => isNaN(Number(char)) ) || Number(input) > 999){
+
+    if (inputValue.split('').some( (char:string) => isNaN(Number(char)) ) || Number(inputValue) > 999){
       return
     }
+
+    if (input.name == 'pomodorosPerSet' && (Number(inputValue) > 9)){
+      return
+    }
+
     if (input.name == 'pomo') setPomotime(inputValue)
     else if (input.name =='short') setShorttime(inputValue)
     else if (input.name == 'long') setLongtime(inputValue)
+    else if (input.name == 'pomodorosPerSet') setPomodorosPerSet(Number(inputValue))
   }
 
   const saveNewSettings = (e:React.FormEvent) => {
@@ -34,7 +64,8 @@ const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pom
         short:target.short.value*60,
         long:target.long.value*60
       },
-      pomodorosPerSet: 4,
+      autoProgression:target.auto.checked,
+      pomodorosPerSet: Number(target.pomodorosPerSet.value),
       sounds: {
         playAlertSound: true,
         playBackgroundSound: true,
@@ -88,8 +119,8 @@ const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pom
     <section className="fixed top-40 right-40 w-96 h-80 bg-neutral-800 text-white rounded-lg p-2 ">
       <div className="flex justify-around py-2">
         <button>Timer</button>
-        <button>pestaña 2</button>
-        <button>pestaña 3</button>
+        <button>Sound</button>
+        <button>Theme 3</button>
       </div>
 
       <div>
@@ -128,19 +159,21 @@ const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pom
             </tr>
             <tr>
               <td>
+                <span className="pr-3">pomodoros per set</span>
+              </td>
+              <td>
+                <button type="button" onClick={handlePlus}>-</button>
+                <input name="pomodorosPerSet" className="bg-transparent  text-center mx-1 w-10 border border-white rounded-md" onChange={e => handleNumberChange(e)} value={pomodorosPerSet}/>
+                <button type="button" onClick={handlePlus}>+</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <span>Automatic progression</span>
               </td>
               <td>
-                <label htmlFor="toggleFour" className="flex cursor-pointer select-none items-center">
-                  <div className="relative">
-                    <input type="checkbox" id="toggleFour" className="sr-only" />
-                    <div className="box bg-dark block h-8 w-14 rounded-full"></div>
-                    <div
-                      className="dot absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white transition"
-                    ></div>
-                  </div>
-                </label>
-
+                <label htmlFor="auto" className="sr-only">sdad</label>
+                <Switch id="auto" name="auto" />
               </td>
             </tr>
             {/* <li><span className="pr-3">long break</span><input className="bg-transparent  text-center mx-1 w-10 border border-white rounded-md" value={Math.floor(config.time.long/60)}/></li> */}

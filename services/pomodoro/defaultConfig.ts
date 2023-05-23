@@ -6,7 +6,8 @@ const config: ConfigInterface = {
     short:300,
     long:1200
   },
-  pomodorosPerSet: 4,
+  autoProgression: true,
+  pomodorosPerSet: 6,
   sounds: {
     playAlertSound: true,
     playBackgroundSound: true,

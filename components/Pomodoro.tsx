@@ -11,7 +11,7 @@ const Pomodoro = () => {
   const [config, setConfig] = useState(defaultConfig)
   const [timeLeft, setTimeLeft] = useState(defaultConfig.time.pomo)
   const [isTimerOn, setIsTimerOn] = useState(false)
-  const [completedPoms, setCompletedPoms] = useState([false,false,false,false])
+  const [completedPoms, setCompletedPoms] = useState<boolean[]>(Array(config.pomodorosPerSet).fill(false))
   const [pomodoroStatus, setPomodoroStatus] = useState<'pomo' | 'short' | 'long'>('pomo')
   const [showSettings, setShowSettings] = useState(false)
 
@@ -22,6 +22,19 @@ const Pomodoro = () => {
   // SET TIME ON STATUS CHANGE: When pomodoro status changes, updates timeLeft to the full time for the current status
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => manageStatusChange({ pomodoroStatus, setTimeLeft, config }), [completedPoms, pomodoroStatus])
+
+  // Updates setCompletedPoms array if config is updated
+  useEffect(() => {
+    if (config.pomodorosPerSet <= completedPoms.length) {
+      setCompletedPoms(completedPoms.slice(0,config.pomodorosPerSet))
+    }
+    else {
+      const followingPomos = Array(config.pomodorosPerSet-completedPoms.length).fill(false)
+      setCompletedPoms(completedPoms.concat(followingPomos))
+    }
+  }, [config])
+  
+
 
   // Changes current pomodoro status on click.
   const handleStatusClick = (e:React.MouseEvent) => changeStatus({ e, isTimerOn, setIsTimerOn, pomodoroStatus, setPomodoroStatus })
