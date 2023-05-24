@@ -6,7 +6,7 @@ import StatusList from './StatusList'
 
 const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, timeLeft, resetPomodoro, handleStatusClick, config, setShowSettings}:PomoStatusInterface) => {
   const bgSound= useRef<HTMLAudioElement>(null)
-  useEffect(() => manageBgAudio({ bgSound, config, isTimerOn }),[isTimerOn, config])
+  useEffect(() => manageBgAudio({ bgSound, config, isTimerOn, pomodoroStatus }),[isTimerOn, config, pomodoroStatus])
 
   const minutes = Math.floor(timeLeft/60)
   const seconds = Math.floor(timeLeft%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})

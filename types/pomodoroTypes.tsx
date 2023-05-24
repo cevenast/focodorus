@@ -60,6 +60,7 @@ export interface manageBgAudioInterface {
   bgSound: RefObject<HTMLAudioElement>
   config: ConfigInterface
   isTimerOn: boolean
+  pomodoroStatus: PomodoroStatusInterface
 }
 
 export interface PomodoroSettingsInterface {
