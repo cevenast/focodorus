@@ -37,6 +37,7 @@ export interface handleCompleteTimerInterface {
   setCompletedPoms: Function
   setIsTimerOn: Function
   setTimeLeft: Function
+  config:ConfigInterface
 }
 
 export interface handleTimeInterface extends handleCompleteTimerInterface {

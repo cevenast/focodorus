@@ -17,7 +17,7 @@ const Pomodoro = () => {
 
   // HANDLE TIME: Pass time and handle end of time  
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => handleTime({ isTimerOn, setIsTimerOn, timeLeft, setTimeLeft, pomodoroStatus, setPomodoroStatus, completedPoms, setCompletedPoms}),[timeLeft, isTimerOn])
+  useEffect(() => handleTime({ isTimerOn, setIsTimerOn, timeLeft, setTimeLeft, pomodoroStatus, setPomodoroStatus, completedPoms, setCompletedPoms, config}),[timeLeft, isTimerOn])
 
   // SET TIME ON STATUS CHANGE: When pomodoro status changes, updates timeLeft to the full time for the current status
   // eslint-disable-next-line react-hooks/exhaustive-deps

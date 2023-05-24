@@ -8,6 +8,7 @@ const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pom
   const [shorttime, setShorttime] = useState(String(Math.floor(config.time.short/60)))
   const [longtime, setLongtime] = useState(String(Math.floor(config.time.long/60)))
   const [pomodorosPerSet, setPomodorosPerSet] = useState(config.pomodorosPerSet)
+  const [autoProgression, setAutoprogression] = useState(config.autoProgression)
 
   const handlePlus = (e:React.MouseEvent) => {
     const target = e.currentTarget as HTMLElement
@@ -173,7 +174,7 @@ const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pom
               </td>
               <td>
                 <label htmlFor="auto" className="sr-only">sdad</label>
-                <Switch id="auto" name="auto" />
+                <Switch id="auto" name="auto" checked={autoProgression} onClick={() => setAutoprogression(!autoProgression)} />
               </td>
             </tr>
             {/* <li><span className="pr-3">long break</span><input className="bg-transparent  text-center mx-1 w-10 border border-white rounded-md" value={Math.floor(config.time.long/60)}/></li> */}
