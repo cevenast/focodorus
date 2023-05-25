@@ -104,3 +104,9 @@ export interface StatusListItemInterface {
   handleStatusClick: MouseEventHandler
   name: PomodoroStatusInterface
 }
+
+export interface updateCompletedPomsInterface {
+  config: ConfigInterface
+  completedPoms: boolean[]
+  setCompletedPoms: Function
+}

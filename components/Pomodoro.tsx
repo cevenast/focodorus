@@ -6,6 +6,8 @@ import defaultConfig from "../services/pomodoro/defaultConfig"
 import manageStatusChange from "@/services/pomodoro/manageStatusChange"
 import changeStatus from "@/services/pomodoro/changeStatus"
 import resetPomodoro from "@/services/pomodoro/resetPomodoro"
+import getFormattedTime from "@/services/pomodoro/getFormattedTime"
+import updateCompletedPoms from "@/services/pomodoro/updateCompletedPoms"
 import Head from "next/head"
 
 const Pomodoro = () => {
@@ -16,7 +18,7 @@ const Pomodoro = () => {
   const [pomodoroStatus, setPomodoroStatus] = useState<'pomo' | 'short' | 'long'>('pomo')
   const [showSettings, setShowSettings] = useState(false)
 
-  // HANDLE TIME: Pass time and handle end of time  
+  // HANDLE TIME: Pass time and handle end of time (change to break, add completed pomodoro, go to next pomodoro )
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => handleTime({ isTimerOn, setIsTimerOn, timeLeft, setTimeLeft, pomodoroStatus, setPomodoroStatus, completedPoms, setCompletedPoms, config}),[timeLeft, isTimerOn])
 
@@ -24,16 +26,8 @@ const Pomodoro = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => manageStatusChange({ pomodoroStatus, setTimeLeft, config }), [completedPoms, pomodoroStatus])
 
-  // Updates setCompletedPoms array if config is updated
-  useEffect(() => {
-    if (config.pomodorosPerSet <= completedPoms.length) {
-      setCompletedPoms(completedPoms.slice(0,config.pomodorosPerSet))
-    }
-    else {
-      const followingPomos = Array(config.pomodorosPerSet-completedPoms.length).fill(false)
-      setCompletedPoms(completedPoms.concat(followingPomos))
-    }
-  }, [config])
+  // Updates setCompletedPoms array if config is updated to track the completed poms and how many are left
+  useEffect(() => updateCompletedPoms({ config, completedPoms, setCompletedPoms}), [config])
 
   // Changes current pomodoro status on click.
   const handleStatusClick = (e:React.MouseEvent) => changeStatus({ e, isTimerOn, setIsTimerOn, pomodoroStatus, setPomodoroStatus })
@@ -41,13 +35,13 @@ const Pomodoro = () => {
   // Resets the time for the current pomodoro or break on click
   const handleResetClick = (e:React.MouseEvent) => resetPomodoro({ e, pomodoroStatus, setTimeLeft, setIsTimerOn, config })
 
+  // Returns boolean that specifies if the timer should be displayed in the head title of the page 
   const displayTimeTitle = () => isTimerOn || timeLeft < config.time[pomodoroStatus]
-  const getMinutes = (timeLeft) => Math.floor(timeLeft/60)
-  const getSeconds = (timeLeft) => Math.floor(timeLeft%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+
   return(
     <>
     <Head>
-      <title>{displayTimeTitle() ? `${getMinutes(timeLeft)}:${getSeconds(timeLeft)} | Focodorus` : 'Focodorus'}</title>
+      <title>{displayTimeTitle() ? `${getFormattedTime(timeLeft).minutes}:${getFormattedTime(timeLeft).seconds} | Focodorus` : 'Focodorus'}</title>
     </Head>
 
     <PomoStatus 
