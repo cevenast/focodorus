@@ -14,11 +14,14 @@ module.exports = {
       },
       colors:{
         'pomo-1': '#acc8b4',
+        'pomo-1-dark': '#9cb8a4',
+        'pomo-1-darker': '#8ca894',
         'pomo-2': '#a46c6c',
         'pomo-3': '#9e3636',
         'pomo-4': '#dca49c',
         'pomo-5': '#625f4e',
-        'pomo-6': '#d45338'
+        'pomo-6': '#d45338',
+        'pomo-3-light': '#a64040'
       }
     },
   },

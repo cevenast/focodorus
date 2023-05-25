@@ -10,10 +10,10 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, tim
 
   const minutes = Math.floor(timeLeft/60)
   const seconds = Math.floor(timeLeft%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
-  const bgColor = {'pomo':'pomo-3', 'short':'pomo-1', 'long':'blue-400'}
+  const bgColor = {'pomo':'bg-pomo-3 hover:bg-pomo-3-light', 'short':'bg-pomo-1-darker hover:bg-pomo-1-dark', 'long':'bg-stone-700 hover:bg-stone-600'}[pomodoroStatus]
 
   return (
-    <div onClick={() => setIsTimerOn(!isTimerOn)} className={`w-64 h-64 pt-16 bg-${bgColor[pomodoroStatus]} hover:bg-pomo-3-light rounded-full flex flex-col justify-center transition duration-500 cursor-pointer`}>
+    <div onClick={() => setIsTimerOn(!isTimerOn)} className={`w-64 h-64 pt-11 ${bgColor} rounded-full flex flex-col justify-center transition duration-500 cursor-pointer`}>
       <StatusList pomodoroStatus={pomodoroStatus} handleStatusClick={handleStatusClick}/>
 
       {/* Pomodoro Timer */}
@@ -28,7 +28,7 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, tim
       <Buttons isTimerOn={isTimerOn} setShowSettings={setShowSettings} resetPomodoro={resetPomodoro}/>
 
       {/* Audio */}
-      <audio ref={bgSound} controls src="/tick-sound.wav" className="invisible"/>
+      <audio ref={bgSound} controls src="/tick-sound.wav" className="invisible h-0"/>
       
     </div>
   )
