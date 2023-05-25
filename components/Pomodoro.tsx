@@ -6,6 +6,7 @@ import defaultConfig from "../services/pomodoro/defaultConfig"
 import manageStatusChange from "@/services/pomodoro/manageStatusChange"
 import changeStatus from "@/services/pomodoro/changeStatus"
 import resetPomodoro from "@/services/pomodoro/resetPomodoro"
+import Head from "next/head"
 
 const Pomodoro = () => {
   const [config, setConfig] = useState(defaultConfig)
@@ -33,8 +34,6 @@ const Pomodoro = () => {
       setCompletedPoms(completedPoms.concat(followingPomos))
     }
   }, [config])
-  
-
 
   // Changes current pomodoro status on click.
   const handleStatusClick = (e:React.MouseEvent) => changeStatus({ e, isTimerOn, setIsTimerOn, pomodoroStatus, setPomodoroStatus })
@@ -42,8 +41,15 @@ const Pomodoro = () => {
   // Resets the time for the current pomodoro or break on click
   const handleResetClick = (e:React.MouseEvent) => resetPomodoro({ e, pomodoroStatus, setTimeLeft, setIsTimerOn, config })
 
+  const displayTimeTitle = () => isTimerOn || timeLeft < config.time[pomodoroStatus]
+  const getMinutes = (timeLeft) => Math.floor(timeLeft/60)
+  const getSeconds = (timeLeft) => Math.floor(timeLeft%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
   return(
     <>
+    <Head>
+      <title>{displayTimeTitle() ? `${getMinutes(timeLeft)}:${getSeconds(timeLeft)} | Focodorus` : 'Focodorus'}</title>
+    </Head>
+
     <PomoStatus 
       isTimerOn={isTimerOn} 
       setIsTimerOn={setIsTimerOn} 
