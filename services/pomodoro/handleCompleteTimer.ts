@@ -17,8 +17,8 @@ const handleCompleteTimer = ({pomodoroStatus, setPomodoroStatus, completedPoms, 
     else{
       alert('yessss')
       setIsTimerOn(false)
-      setCompletedPoms([false,false,false,false])
-      setTimeLeft(123)
+      setCompletedPoms(Array(completedPoms.length).fill(false))
+      setTimeLeft(config.time.pomo)
       setPomodoroStatus('pomo')
     }
   }
