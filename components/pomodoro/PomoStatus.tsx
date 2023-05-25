@@ -3,6 +3,7 @@ import { PomoStatusInterface } from '@/types/pomodoroTypes'
 import manageBgAudio from '@/services/pomodoro/manageBgAudio';
 import Buttons from './Buttons'
 import StatusList from './StatusList'
+import CompletedPoms from './CompletedPoms';
 
 const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, timeLeft, resetPomodoro, handleStatusClick, config, setShowSettings}:PomoStatusInterface) => {
   const bgSound= useRef<HTMLAudioElement>(null)
@@ -20,9 +21,7 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, tim
       <h4 className="text-center text-white text-5xl font-bold mx-auto font-mono">{minutes}:{seconds}</h4>
 
       {/* Completed Pomodoros */}
-      <div className="text-center">
-        {completedPoms.map((pom, i) => <span key={i} className={`${pom ? 'bg-green-800' : 'bg-neutral-800'} inline-block h-3 w-3 rounded-full mx-1`}></span>)}
-      </div>
+      {config.autoProgression === true && <CompletedPoms completedPoms={completedPoms}/>}
 
       {/* Buttons */}
       <Buttons isTimerOn={isTimerOn} setShowSettings={setShowSettings} resetPomodoro={resetPomodoro}/>
