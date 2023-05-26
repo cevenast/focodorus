@@ -16,8 +16,21 @@ const PomoStatus = ({isTimerOn, setIsTimerOn, completedPoms, pomodoroStatus, tim
     long:'bg-stone-700 hover:bg-stone-600'
   }[pomodoroStatus] // Evaluates pomodoroStatus to get the corresponding colors
 
+  const handleSpace = (e:React.KeyboardEvent) => {
+    if (e.key === ' '){
+      e.preventDefault()
+      setIsTimerOn(!isTimerOn)
+    }
+
+  }
   return (
-    <div onClick={() => setIsTimerOn(!isTimerOn)} className={`w-64 h-64 pt-11 ${bgColor} rounded-full flex flex-col justify-center transition duration-500 cursor-pointer`}>
+    <div
+      tabIndex={0}
+      autoFocus
+      onClick={() => setIsTimerOn(!isTimerOn)}
+      onKeyDown={handleSpace}
+      className={`w-64 h-64 pt-11 ${bgColor} rounded-full flex flex-col justify-center transition duration-500 cursor-pointer`}
+    >
       <StatusList pomodoroStatus={pomodoroStatus} handleStatusClick={handleStatusClick}/>
 
       {/* Pomodoro Timer */}

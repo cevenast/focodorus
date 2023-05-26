@@ -3,7 +3,7 @@ import { changeStatusInterface } from "@/types/pomodoroTypes"
 const changeStatus = ({e, isTimerOn, setIsTimerOn, pomodoroStatus, setPomodoroStatus}:changeStatusInterface) => {
   e.stopPropagation()
     setIsTimerOn(false)
-    const newStatus = e.target as HTMLElement
+    const newStatus = e.currentTarget as HTMLElement
     if (pomodoroStatus === 'pomo' && isTimerOn == true){
       alert('stop current pomodoro?')
     }
