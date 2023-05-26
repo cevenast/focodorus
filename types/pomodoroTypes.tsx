@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, ReactNode, RefObject } from "react"
 
-type PomodoroStatusInterface = 'pomo' | 'short' | 'long'
+export type PomodoroStatusInterface = 'pomo' | 'short' | 'long'
 
 export interface ButtonsInterface {
   isTimerOn: boolean

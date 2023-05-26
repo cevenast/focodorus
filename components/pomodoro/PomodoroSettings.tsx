@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { PomodoroSettingsInterface, ConfigInterface } from "@/types/pomodoroTypes"
+import { PomodoroSettingsInterface } from "@/types/pomodoroTypes"
 import Switch from '@mui/material/Switch'
-
+import changeNumberByOne from '@/services/pomodoro/settings/changeNumberByOne'
+import changeNumber from '@/services/pomodoro/settings/changeNumber'
+import saveNewSettings from '@/services/pomodoro/settings/saveNewSettings'
 
 const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pomodoroStatus }:PomodoroSettingsInterface) => {
   const [pomotime, setPomotime] = useState(String(Math.floor(config.time.pomo/60)))
@@ -10,111 +12,14 @@ const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pom
   const [pomodorosPerSet, setPomodorosPerSet] = useState(config.pomodorosPerSet)
   const [autoProgression, setAutoprogression] = useState(config.autoProgression)
 
-  const handlePlus = (e:React.MouseEvent) => {
-    const target = e.currentTarget as HTMLElement
-    const input = (target.parentElement as HTMLElement).childNodes[1] as HTMLInputElement
-    const newNum = target.innerText === '+' ? Number(input.value) + 1 : Number(input.value) - 1
+  const handlePlus = (e:React.MouseEvent) => changeNumberByOne({ e, setPomotime, setShorttime, setLongtime, setPomodorosPerSet })
 
-    if (input.name == 'pomodorosPerSet' && newNum >= 10) {
-      return
-    }
-
-    if (newNum < 1000){
-      input.value = newNum >= 0 ? String(newNum) : input.value
-      switch (input.name) {
-        case 'pomo':
-          setPomotime(String(newNum))
-          break
-        case 'short':
-          setShorttime(String(newNum))
-          break
-        case 'long':
-          setLongtime(String(newNum))
-          break
-        case 'pomodorosPerSet':
-          setPomodorosPerSet(newNum)
-          break
-      }
-    }
-  }
-
-  const handleNumberChange = (e:React.ChangeEvent) => {
-    const input = e.target as HTMLInputElement
-    const inputValue = input.value
-
-    if (inputValue.split('').some( (char:string) => isNaN(Number(char)) ) || Number(inputValue) > 999){
-      return
-    }
-
-    if (input.name == 'pomodorosPerSet' && (Number(inputValue) > 9)){
-      return
-    }
-
-    if (input.name == 'pomo') setPomotime(inputValue)
-    else if (input.name =='short') setShorttime(inputValue)
-    else if (input.name == 'long') setLongtime(inputValue)
-    else if (input.name == 'pomodorosPerSet') setPomodorosPerSet(Number(inputValue))
-  }
-
-  const saveNewSettings = (e:React.FormEvent) => {
+  const handleNumberChange = (e:React.ChangeEvent) => changeNumber({ e, setPomotime, setShorttime, setLongtime, setPomodorosPerSet})
+  
+  const handleSaveNewSettings = (e:React.FormEvent) => {
     e.preventDefault()
-    const target = e.target as HTMLFormElement
-    const newConfig:ConfigInterface = {
-      time: {
-        pomo:target.pomo.value*60,
-        short:target.short.value*60,
-        long:target.long.value*60
-      },
-      autoProgression:target.auto.checked,
-      pomodorosPerSet: Number(target.pomodorosPerSet.value),
-      sounds: {
-        playAlertSound: true,
-        playBackgroundSound: true,
-        endPomodoroSound:'some sound',
-        endBreakSound:'end break sound',
-        ambientSound:'tic tac',
-        volume:50
-      },
-      theme: 'theme1'
-    }
-    setConfig(newConfig)
-    setTimeLeft(newConfig.time[pomodoroStatus])
+    saveNewSettings({ e, setConfig, setTimeLeft, pomodoroStatus})
   }
-
-  // const handlePlus = (e: React.MouseEvent | React.ChangeEvent) => {
-  //   // Ensures all characters in input are numbers, 
-  //   const input = e.target.parentElement.childNodes[1].value
-  //   if (input.split('').some( (char:string) => isNaN(Number(char)) ) ){
-  //     return
-  //   }
-
-  //   // Defines what happens to previous number on + or - click, or just leaves the typed character onChange
-  //   const num = Number(input)*60
-  //   let newNum:number
-  //   switch (e.currentTarget.innerText) {
-  //     case '+':
-  //       newNum = num + 60
-  //       break
-  //     case '-':
-  //       newNum = num - 60
-  //       break
-  //     default:
-  //       newNum = num
-  //   }
-
-  //   // Prevents negative numbers
-  //   if (newNum < 0) newNum = 0
-
-  //   // Updates the config with the new time setting
-  //   const newConfig = {...config}
-  //   newConfig.time.pomo = newNum
-  //   setConfig(newConfig)
-
-  //   // Updates the current pomodoro to full time 
-  //   if (timeLeft !== config.time.pomo && newNum > 0){
-  //     newNum < 60 ? setTimeLeft(60) : setTimeLeft(newNum)
-  //   }
-  // }
 
   return (
     <section className="fixed top-40 right-40 w-96 h-80 bg-neutral-800 text-white rounded-lg p-2 ">
@@ -126,7 +31,7 @@ const PomodoroSettings = ({ config, setConfig, setShowSettings, setTimeLeft, pom
 
       <div>
         {/* Timers */}
-        <form onSubmit={e => saveNewSettings(e)}>
+        <form onSubmit={e => handleSaveNewSettings(e)}>
           <table className="">
             <tr>
               <td>
