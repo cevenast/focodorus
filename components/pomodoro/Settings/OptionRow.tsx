@@ -23,8 +23,8 @@ const OptionRow = ({type, name, id, hasAddButton=false, handlePlus, currentValue
   
   return (
     <tr>
-      <td>
-        <span className="pr-3">{name}</span>
+      <td className="w-64">
+        <span className="inline-block pr-3 my-1">{name}</span>
       </td>
       <td>
         {data}

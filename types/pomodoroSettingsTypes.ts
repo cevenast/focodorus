@@ -40,4 +40,5 @@ export interface TimerOptionsInterface {
   shorttime: string
   longtime: string
   pomodorosPerSet: number
+  activeCategory: 'timer' | 'sound'
 }
